@@ -2,6 +2,7 @@ package com.kata.uglytrivia;
 
 import com.kata.playboard.*;
 
+import java.io.PrintStream;
 import java.util.*;
 
 public class GameRunner {
@@ -9,13 +10,16 @@ public class GameRunner {
     private static boolean notAWinner;
 
     public static void main(String[] args) {
-        Game aGame = new Game();
+        run(new Random(), System.out);
+
+    }
+
+    protected static void run(Random rand, PrintStream out) {
+        Game aGame = new Game(out);
 
         aGame.add("Chet");
         aGame.add("Pat");
         aGame.add("Sue");
-
-        Random rand = new Random();
 
         do {
 
@@ -30,6 +34,5 @@ public class GameRunner {
 
 
         } while (notAWinner);
-
     }
 }
