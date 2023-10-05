@@ -1,5 +1,7 @@
 package com.kata.playboard;
 
+import com.google.common.collect.*;
+
 import java.io.PrintStream;
 import java.util.*;
 
@@ -12,31 +14,27 @@ public class Game {
     int[] purses  = new int[6];
     boolean[] inPenaltyBox  = new boolean[6];
 
-    LinkedList popQuestions = new LinkedList();
-    LinkedList scienceQuestions = new LinkedList();
-    LinkedList sportsQuestions = new LinkedList();
-    LinkedList rockQuestions = new LinkedList();
+    Map<QuestionTopic, LinkedList<String>> questions = new HashMap<>() {{
+        put(POP, new LinkedList<>());
+        put(SCIENCE, new LinkedList<>());
+        put(SPORTS, new LinkedList<>());
+        put(ROCK, new LinkedList<>());
+    }};
 
     int currentPlayer = 0;
     boolean isGettingOutOfPenaltyBox;
 
     public  Game(PrintStream out){
         for (int i = 0; i < 50; i++) {
-            popQuestions.addLast("Pop Question " + i);
-            scienceQuestions.addLast(("Science Question " + i));
-            sportsQuestions.addLast(("Sports Question " + i));
-            rockQuestions.addLast(createRockQuestion(i));
+            for(QuestionTopic topic : QuestionTopic.values()) {
+                LinkedList<String> topicQuestions = questions.getOrDefault(topic, new LinkedList<>());
+                topicQuestions.addLast(String.format("%s Question %d", topic, i));
+            }
         }
         this.out = out;
     }
 
-    public String createRockQuestion(int index){
-        return "Rock Question " + index;
-    }
-
     public boolean add(String playerName) {
-
-
         players.add(playerName);
         places[howManyPlayers()] = 0;
         purses[howManyPlayers()] = 0;
@@ -88,16 +86,8 @@ public class Game {
     }
 
     private void askQuestion() {
-        if (POP == currentCategory())
-            out.println(popQuestions.removeFirst());
-        if (SCIENCE == currentCategory())
-            out.println(scienceQuestions.removeFirst());
-        if (SPORTS == currentCategory())
-            out.println(sportsQuestions.removeFirst());
-        if (ROCK == currentCategory())
-            out.println(rockQuestions.removeFirst());
+        out.println(questions.get(currentCategory()).removeFirst());
     }
-
 
     private QuestionTopic currentCategory() {
         if (places[currentPlayer] == 0) return POP;
@@ -132,9 +122,6 @@ public class Game {
                 if (currentPlayer == players.size()) currentPlayer = 0;
                 return true;
             }
-
-
-
         } else {
 
             out.println("Answer was corrent!!!!");
