@@ -3,6 +3,8 @@ package com.kata.playboard;
 import java.io.PrintStream;
 import java.util.*;
 
+import static com.kata.playboard.QuestionTopic.*;
+
 public class Game {
     private final PrintStream out;
     List<String> players = new ArrayList<>();
@@ -30,10 +32,6 @@ public class Game {
 
     public String createRockQuestion(int index){
         return "Rock Question " + index;
-    }
-
-    public boolean isPlayable() {
-        return (howManyPlayers() >= 2);
     }
 
     public boolean add(String playerName) {
@@ -90,28 +88,28 @@ public class Game {
     }
 
     private void askQuestion() {
-        if (currentCategory() == "Pop")
+        if (POP.toString().equals(currentCategory()))
             out.println(popQuestions.removeFirst());
-        if (currentCategory() == "Science")
+        if ("Science".equals(currentCategory()))
             out.println(scienceQuestions.removeFirst());
-        if (currentCategory() == "Sports")
+        if ("Sports".equals(currentCategory()))
             out.println(sportsQuestions.removeFirst());
-        if (currentCategory() == "Rock")
+        if ("Rock".equals(currentCategory()))
             out.println(rockQuestions.removeFirst());
     }
 
 
     private String currentCategory() {
-        if (places[currentPlayer] == 0) return "Pop";
-        if (places[currentPlayer] == 4) return "Pop";
-        if (places[currentPlayer] == 8) return "Pop";
-        if (places[currentPlayer] == 1) return "Science";
-        if (places[currentPlayer] == 5) return "Science";
-        if (places[currentPlayer] == 9) return "Science";
-        if (places[currentPlayer] == 2) return "Sports";
-        if (places[currentPlayer] == 6) return "Sports";
-        if (places[currentPlayer] == 10) return "Sports";
-        return "Rock";
+        if (places[currentPlayer] == 0) return POP.toString();
+        if (places[currentPlayer] == 4) return POP.toString();
+        if (places[currentPlayer] == 8) return POP.toString();
+        if (places[currentPlayer] == 1) return SCIENCE.toString();
+        if (places[currentPlayer] == 5) return SCIENCE.toString();
+        if (places[currentPlayer] == 9) return SCIENCE.toString();
+        if (places[currentPlayer] == 2) return SPORTS.toString();
+        if (places[currentPlayer] == 6) return SPORTS.toString();
+        if (places[currentPlayer] == 10) return SPORTS.toString();
+        return ROCK.toString();
     }
 
     public boolean wasCorrectlyAnswered() {
