@@ -1,6 +1,6 @@
 package com.kata.playboard;
 
-public enum QuestionTopic {
+public enum  QuestionTopic {
 
     POP("Pop"), SCIENCE("Science"), SPORTS("Sports"), ROCK("Rock");
 
