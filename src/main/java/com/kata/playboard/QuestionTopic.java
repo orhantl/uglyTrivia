@@ -14,4 +14,13 @@ public enum QuestionTopic {
     public String toString() {
         return value;
     }
+
+    public static QuestionTopic getTopicFromPosition(int position) {
+        return switch (position) {
+            case 0, 4, 8 -> POP;
+            case 1, 5, 9 -> SCIENCE;
+            case 2, 6, 10 -> SPORTS;
+            default -> ROCK;
+        };
+    }
 }

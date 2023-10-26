@@ -8,6 +8,9 @@ import java.util.*;
 import static com.kata.playboard.QuestionTopic.*;
 
 public class Game {
+
+    public static final int QUESTIONS_PER_TOPIC = 50;
+
     private final PrintStream out;
     List<String> players = new ArrayList<>();
     int[] places = new int[6];
@@ -25,9 +28,9 @@ public class Game {
     boolean isGettingOutOfPenaltyBox;
 
     public  Game(PrintStream out){
-        for (int i = 0; i < 50; i++) {
-            for(QuestionTopic topic : QuestionTopic.values()) {
-                LinkedList<String> topicQuestions = questions.getOrDefault(topic, new LinkedList<>());
+        for(QuestionTopic topic : QuestionTopic.values()) {
+            LinkedList<String> topicQuestions = questions.get(topic);
+            for (int i = 0; i < QUESTIONS_PER_TOPIC; i++) {
                 topicQuestions.addLast(String.format("%s Question %d", topic, i));
             }
         }
@@ -90,16 +93,7 @@ public class Game {
     }
 
     private QuestionTopic currentCategory() {
-        if (places[currentPlayer] == 0) return POP;
-        if (places[currentPlayer] == 4) return POP;
-        if (places[currentPlayer] == 8) return POP;
-        if (places[currentPlayer] == 1) return SCIENCE;
-        if (places[currentPlayer] == 5) return SCIENCE;
-        if (places[currentPlayer] == 9) return SCIENCE;
-        if (places[currentPlayer] == 2) return SPORTS;
-        if (places[currentPlayer] == 6) return SPORTS;
-        if (places[currentPlayer] == 10) return SPORTS;
-        return ROCK;
+        return QuestionTopic.getTopicFromPosition(places[currentPlayer]);
     }
 
     public boolean wasCorrectlyAnswered() {
