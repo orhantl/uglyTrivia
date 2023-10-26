@@ -44,33 +44,29 @@ public class Game {
         inPenaltyBox[howManyPlayers()] = false;
 
         out.println(playerName + " was added");
-        out.println("They are player number " + players.size());
+        out.println("They are player number " + allPlayers.size());
         return true;
     }
 
-    public int howManyPlayers() {
-        return players.size();
-    }
-
     public void roll(int roll) {
-        out.println(players.get(currentPlayer) + " is the current player");
+        out.println(getCurrentPlayer() + " is the current player");
         out.println("They have rolled a " + roll);
 
         if (inPenaltyBox[currentPlayer]) {
             if (roll % 2 != 0) {
                 isGettingOutOfPenaltyBox = true;
 
-                out.println(players.get(currentPlayer) + " is getting out of the penalty box");
+                out.println(getCurrentPlayer() + " is getting out of the penalty box");
                 places[currentPlayer] = places[currentPlayer] + roll;
                 if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
 
-                out.println(players.get(currentPlayer)
+                out.println(getCurrentPlayer()
                         + "'s new location is "
                         + places[currentPlayer]);
                 out.println("The category is " + currentCategory());
                 askQuestion();
             } else {
-                out.println(players.get(currentPlayer) + " is not getting out of the penalty box");
+                out.println(getCurrentPlayer() + " is not getting out of the penalty box");
                 isGettingOutOfPenaltyBox = false;
             }
 
@@ -79,13 +75,17 @@ public class Game {
             places[currentPlayer] = places[currentPlayer] + roll;
             if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
 
-            out.println(players.get(currentPlayer)
+            out.println(getCurrentPlayer()
                     + "'s new location is "
                     + places[currentPlayer]);
             out.println("The category is " + currentCategory());
             askQuestion();
         }
 
+    }
+
+    private Player getCurrentPlayer() {
+        return allPlayers.get(currentPlayer);
     }
 
     private void askQuestion() {
