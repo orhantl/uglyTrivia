@@ -1,6 +1,5 @@
 package com.kata.playboard;
 
-import com.google.common.collect.*;
 
 import java.io.PrintStream;
 import java.util.*;
@@ -8,6 +7,10 @@ import java.util.*;
 import static com.kata.playboard.QuestionTopic.*;
 
 public class Game {
+    // extraire le comportement de player
+    // notion de Game à faire ressortir de facon plus explicite dans le code
+    // creer une classe pour l'ensemble des players ?
+    // améliorer la couverture de test - use case particulier
 
     public static final int QUESTIONS_PER_TOPIC = 50;
 
