@@ -9,15 +9,18 @@ final class Player {
     private int purse;
     private boolean inPenaltyBox;
 
-    Player(String name, int place, int purse, boolean inPenaltyBox) {
+    private boolean isGettingOutOfPenaltyBox;
+
+    Player(String name, int place, int purse, boolean inPenaltyBox, boolean isGettingOutOfPenaltyBox) {
         this.name = name;
         this.place = place;
         this.purse = purse;
         this.inPenaltyBox = inPenaltyBox;
+        this.isGettingOutOfPenaltyBox = isGettingOutOfPenaltyBox;
     }
 
     Player(String name) {
-        this(name, 0, 0, false);
+        this(name, 0, 0, false, false);
     }
 
     void move(int place) {
@@ -48,6 +51,8 @@ final class Player {
         return purse;
     }
 
+
+
     public boolean hasWon() {
         return this.purse >= MAX_PURSE;
     }
@@ -58,5 +63,13 @@ final class Player {
 
     public void goToPenaltyBox() {
         this.inPenaltyBox = true;
+    }
+
+    public boolean isGettingOutOfPenaltyBox() {
+        return isGettingOutOfPenaltyBox;
+    }
+
+    public void setGettingOutOfPenaltyBox(boolean gettingOutOfPenaltyBox) {
+        isGettingOutOfPenaltyBox = gettingOutOfPenaltyBox;
     }
 }
