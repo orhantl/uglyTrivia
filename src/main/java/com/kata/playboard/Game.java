@@ -95,6 +95,7 @@ public class Game {
     }
 
     public boolean wasCorrectlyAnswered() {
+        boolean winner;
         if (getCurrentPlayer().isInPenaltyBox()){
             if (getCurrentPlayer().isGettingOutOfPenaltyBox()) {
                 out.println("Answer was correct!!!!");
@@ -105,13 +106,9 @@ public class Game {
                         + getCurrentPlayer().purse()
                         + " Gold Coins.");
 
-                boolean winner = didPlayerWin();
-                nextPlayer();
-
-                return winner;
+                winner = didPlayerWin();
             } else {
-                nextPlayer();
-                return false;
+                winner = false;
             }
         } else {
 
@@ -122,11 +119,10 @@ public class Game {
                     + getCurrentPlayer().purse()
                     + " Gold Coins.");
 
-            boolean winner = didPlayerWin();
-            nextPlayer();
-
-            return winner;
+            winner = didPlayerWin();
         }
+        nextPlayer();
+        return winner;
     }
 
     private void nextPlayer() {
