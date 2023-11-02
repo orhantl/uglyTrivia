@@ -7,7 +7,7 @@ import java.util.*;
 
 public class GameRunner {
 
-    private static boolean notAWinner;
+    private static boolean isAWinner;
 
     public static void main(String[] args) {
         run(new Random(), System.out);
@@ -26,11 +26,11 @@ public class GameRunner {
             aGame.roll(rand.nextInt(5) + 1);
 
             if (rand.nextInt(9) == 7) {
-                notAWinner = aGame.wrongAnswer();
+                isAWinner = aGame.wrongAnswer();
             } else {
-                notAWinner = aGame.wasCorrectlyAnswered();
+                isAWinner = aGame.wasCorrectlyAnswered();
             }
 
-        } while (notAWinner);
+        } while (!isAWinner);
     }
 }

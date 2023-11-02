@@ -106,7 +106,7 @@ public class Game {
 
                 out.println(getCurrentPlayer()
                         + " now has "
-                        + purses[currentPlayer]
+                        + getCurrentPlayer().purse()
                         + " Gold Coins.");
 
                 boolean winner = didPlayerWin();
@@ -117,7 +117,7 @@ public class Game {
             } else {
                 currentPlayer++;
                 if (currentPlayer == allPlayers.size()) currentPlayer = 0;
-                return true;
+                return false;
             }
         } else {
 
@@ -125,7 +125,7 @@ public class Game {
             movePurses();
             out.println(getCurrentPlayer()
                     + " now has "
-                    + purses[currentPlayer]
+                    + getCurrentPlayer().purse()
                     + " Gold Coins.");
 
             boolean winner = didPlayerWin();
@@ -138,6 +138,7 @@ public class Game {
 
     void movePurses() {
         purses[currentPlayer]++;
+        getCurrentPlayer().addPoint();
 
     }
 
@@ -148,11 +149,11 @@ public class Game {
 
         currentPlayer++;
         if (currentPlayer == allPlayers.size()) currentPlayer = 0;
-        return true;
+        return false;
     }
 
 
     private boolean didPlayerWin() {
-        return !(purses[currentPlayer] == 6);
+        return getCurrentPlayer().hasWon();
     }
 }
