@@ -16,7 +16,6 @@ public class Game {
 
     private final PrintStream out;
     List<Player> allPlayers = new ArrayList<>();
-    int[] purses  = new int[6];
     boolean[] inPenaltyBox  = new boolean[6];
 
     Map<QuestionTopic, LinkedList<String>> questions = new HashMap<>() {{
@@ -102,7 +101,7 @@ public class Game {
         if (inPenaltyBox[currentPlayer]){
             if (isGettingOutOfPenaltyBox) {
                 out.println("Answer was correct!!!!");
-                movePurses();
+                getCurrentPlayer().addPoint();
 
                 out.println(getCurrentPlayer()
                         + " now has "
@@ -122,7 +121,7 @@ public class Game {
         } else {
 
             out.println("Answer was corrent!!!!");
-            movePurses();
+            getCurrentPlayer().addPoint();
             out.println(getCurrentPlayer()
                     + " now has "
                     + getCurrentPlayer().purse()
@@ -134,12 +133,6 @@ public class Game {
 
             return winner;
         }
-    }
-
-    void movePurses() {
-        purses[currentPlayer]++;
-        getCurrentPlayer().addPoint();
-
     }
 
     public boolean wrongAnswer(){
