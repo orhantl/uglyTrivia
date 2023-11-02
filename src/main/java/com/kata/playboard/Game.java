@@ -16,7 +16,6 @@ public class Game {
 
     private final PrintStream out;
     List<Player> allPlayers = new ArrayList<>();
-    int[] places = new int[6];
     int[] purses  = new int[6];
     boolean[] inPenaltyBox  = new boolean[6];
 
@@ -53,46 +52,38 @@ public class Game {
         return true;
     }
 
+
     public void roll(int roll) {
-        out.println(getCurrentPlayer() + " is the current player");
+        Player currentPlayer1 = getCurrentPlayer();
+        out.println(currentPlayer1 + " is the current player");
         out.println("They have rolled a " + roll);
 
         if (inPenaltyBox[currentPlayer]) {
             if (roll % 2 != 0) {
                 isGettingOutOfPenaltyBox = true;
 
-                out.println(getCurrentPlayer() + " is getting out of the penalty box");
-                moveCurrentPlayer(roll);
-                if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
+                out.println(currentPlayer1 + " is getting out of the penalty box");
+                currentPlayer1.move(roll);
 
-                out.println(getCurrentPlayer()
+                out.println(currentPlayer1
                         + "'s new location is "
-                        + places[currentPlayer]);
+                        + currentPlayer1.place());
                 out.println("The category is " + currentCategory());
                 askQuestion();
             } else {
-                out.println(getCurrentPlayer() + " is not getting out of the penalty box");
+                out.println(currentPlayer1 + " is not getting out of the penalty box");
                 isGettingOutOfPenaltyBox = false;
             }
 
         } else {
-
-            moveCurrentPlayer(roll);
-            if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
-
-            out.println(getCurrentPlayer()
+            currentPlayer1.move(roll);
+            out.println(currentPlayer1
                     + "'s new location is "
-                    + places[currentPlayer]);
+                    + currentPlayer1.place());
             out.println("The category is " + currentCategory());
             askQuestion();
         }
 
-    }
-
-    private void moveCurrentPlayer(int roll) {
-        getCurrentPlayer().move(roll);
-        // Parallel Run pattern
-        places[currentPlayer] = places[currentPlayer] + roll;
     }
 
     private Player getCurrentPlayer() {
@@ -104,14 +95,15 @@ public class Game {
     }
 
     private QuestionTopic currentCategory() {
-        return QuestionTopic.getTopicFromPosition(places[currentPlayer]);
+        return QuestionTopic.getTopicFromPosition(getCurrentPlayer().place());
     }
 
     public boolean wasCorrectlyAnswered() {
         if (inPenaltyBox[currentPlayer]){
             if (isGettingOutOfPenaltyBox) {
                 out.println("Answer was correct!!!!");
-                purses[currentPlayer]++;
+                movePurses();
+
                 out.println(getCurrentPlayer()
                         + " now has "
                         + purses[currentPlayer]
@@ -130,7 +122,7 @@ public class Game {
         } else {
 
             out.println("Answer was corrent!!!!");
-            purses[currentPlayer]++;
+            movePurses();
             out.println(getCurrentPlayer()
                     + " now has "
                     + purses[currentPlayer]
@@ -142,6 +134,11 @@ public class Game {
 
             return winner;
         }
+    }
+
+    void movePurses() {
+        purses[currentPlayer]++;
+
     }
 
     public boolean wrongAnswer(){

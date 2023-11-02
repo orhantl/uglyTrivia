@@ -1,6 +1,8 @@
 package com.kata.playboard;
 
 final class Player {
+    private static final int MAX_PLACE = 12;
+
     private final String name;
     private int place;
     private final int purse;
@@ -18,11 +20,24 @@ final class Player {
     }
 
     void move(int place) {
-        this.place += place;
+         this.place += place;
+         if (this.place >= MAX_PLACE) {
+             this.place -= MAX_PLACE;
+         }
     }
 
     public String name() {
         return name;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+
+    public int place() {
+        return place;
+    }
+
 
 }

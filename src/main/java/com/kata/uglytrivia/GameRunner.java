@@ -31,8 +31,6 @@ public class GameRunner {
                 notAWinner = aGame.wasCorrectlyAnswered();
             }
 
-
-
         } while (notAWinner);
     }
 }
