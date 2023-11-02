@@ -16,6 +16,7 @@ public class Game {
 
     private final PrintStream out;
     List<Player> allPlayers = new ArrayList<>();
+    int currentPlayerIndex = 0;
 
     Map<QuestionTopic, LinkedList<String>> questions = new HashMap<>() {{
         put(POP, new LinkedList<>());
@@ -23,8 +24,6 @@ public class Game {
         put(SPORTS, new LinkedList<>());
         put(ROCK, new LinkedList<>());
     }};
-
-    int currentPlayer = 0;
 
     public  Game(PrintStream out){
         for(QuestionTopic topic : QuestionTopic.values()) {
@@ -51,32 +50,32 @@ public class Game {
 
 
     public void roll(int roll) {
-        Player currentPlayer1 = getCurrentPlayer();
-        out.println(currentPlayer1 + " is the current player");
+        Player currentPlayer = getCurrentPlayer();
+        out.println(currentPlayer + " is the current player");
         out.println("They have rolled a " + roll);
 
         if (getCurrentPlayer().isInPenaltyBox()) {
             if (roll % 2 != 0) {
                 getCurrentPlayer().setGettingOutOfPenaltyBox(true);
 
-                out.println(currentPlayer1 + " is getting out of the penalty box");
-                currentPlayer1.move(roll);
+                out.println(currentPlayer + " is getting out of the penalty box");
+                currentPlayer.move(roll);
 
-                out.println(currentPlayer1
+                out.println(currentPlayer
                         + "'s new location is "
-                        + currentPlayer1.place());
+                        + currentPlayer.place());
                 out.println("The category is " + currentCategory());
                 askQuestion();
             } else {
-                out.println(currentPlayer1 + " is not getting out of the penalty box");
+                out.println(currentPlayer + " is not getting out of the penalty box");
                 getCurrentPlayer().setGettingOutOfPenaltyBox(false);
             }
 
         } else {
-            currentPlayer1.move(roll);
-            out.println(currentPlayer1
+            currentPlayer.move(roll);
+            out.println(currentPlayer
                     + "'s new location is "
-                    + currentPlayer1.place());
+                    + currentPlayer.place());
             out.println("The category is " + currentCategory());
             askQuestion();
         }
@@ -84,7 +83,7 @@ public class Game {
     }
 
     private Player getCurrentPlayer() {
-        return allPlayers.get(currentPlayer);
+        return allPlayers.get(currentPlayerIndex);
     }
 
     private void askQuestion() {
@@ -107,18 +106,16 @@ public class Game {
                         + " Gold Coins.");
 
                 boolean winner = didPlayerWin();
-                currentPlayer++;
-                if (currentPlayer == allPlayers.size()) currentPlayer = 0;
+                nextPlayer();
 
                 return winner;
             } else {
-                currentPlayer++;
-                if (currentPlayer == allPlayers.size()) currentPlayer = 0;
+                nextPlayer();
                 return false;
             }
         } else {
 
-            out.println("Answer was corrent!!!!");
+            out.println("Answer was correct!!!!");
             getCurrentPlayer().addPoint();
             out.println(getCurrentPlayer()
                     + " now has "
@@ -126,11 +123,15 @@ public class Game {
                     + " Gold Coins.");
 
             boolean winner = didPlayerWin();
-            currentPlayer++;
-            if (currentPlayer == allPlayers.size()) currentPlayer = 0;
+            nextPlayer();
 
             return winner;
         }
+    }
+
+    private void nextPlayer() {
+        currentPlayerIndex++;
+        if (currentPlayerIndex == allPlayers.size()) currentPlayerIndex = 0;
     }
 
     public boolean wrongAnswer(){
@@ -139,8 +140,7 @@ public class Game {
 
         getCurrentPlayer().goToPenaltyBox();
 
-        currentPlayer++;
-        if (currentPlayer == allPlayers.size()) currentPlayer = 0;
+        nextPlayer();
         return false;
     }
 
