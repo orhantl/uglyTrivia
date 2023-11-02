@@ -16,7 +16,6 @@ public class Game {
 
     private final PrintStream out;
     List<Player> allPlayers = new ArrayList<>();
-    boolean[] inPenaltyBox  = new boolean[6];
 
     Map<QuestionTopic, LinkedList<String>> questions = new HashMap<>() {{
         put(POP, new LinkedList<>());
@@ -57,7 +56,7 @@ public class Game {
         out.println(currentPlayer1 + " is the current player");
         out.println("They have rolled a " + roll);
 
-        if (inPenaltyBox[currentPlayer]) {
+        if (getCurrentPlayer().isInPenaltyBox()) {
             if (roll % 2 != 0) {
                 isGettingOutOfPenaltyBox = true;
 
@@ -98,7 +97,7 @@ public class Game {
     }
 
     public boolean wasCorrectlyAnswered() {
-        if (inPenaltyBox[currentPlayer]){
+        if (getCurrentPlayer().isInPenaltyBox()){
             if (isGettingOutOfPenaltyBox) {
                 out.println("Answer was correct!!!!");
                 getCurrentPlayer().addPoint();
@@ -138,7 +137,8 @@ public class Game {
     public boolean wrongAnswer(){
         out.println("Question was incorrectly answered");
         out.println(getCurrentPlayer()+ " was sent to the penalty box");
-        inPenaltyBox[currentPlayer] = true;
+
+        getCurrentPlayer().goToPenaltyBox();
 
         currentPlayer++;
         if (currentPlayer == allPlayers.size()) currentPlayer = 0;

@@ -7,7 +7,7 @@ final class Player {
     private final String name;
     private int place;
     private int purse;
-    private final boolean inPenaltyBox;
+    private boolean inPenaltyBox;
 
     Player(String name, int place, int purse, boolean inPenaltyBox) {
         this.name = name;
@@ -50,5 +50,13 @@ final class Player {
 
     public boolean hasWon() {
         return this.purse >= MAX_PURSE;
+    }
+
+    public boolean isInPenaltyBox() {
+        return inPenaltyBox;
+    }
+
+    public void goToPenaltyBox() {
+        this.inPenaltyBox = true;
     }
 }
